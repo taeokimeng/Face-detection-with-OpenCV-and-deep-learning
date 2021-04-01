@@ -5,16 +5,20 @@ import argparse
 import imutils
 import time
 import cv2
+import os
 
 
 
 # define prototext and caffemodel paths
-caffeModel = "../models/res10_300x300_ssd_iter_140000.caffemodel"
-prototextPath = "../models/deploy.prototxt.txt"
+# Path should be absolute path
+# caffeModel = "/models/res10_300x300_ssd_iter_140000.caffemodel"
+# prototextPath = "/models/deploy.prototxt.txt"
+caffemodel_abs_path = os.path.abspath(__file__ + "/../../models/res10_300x300_ssd_iter_140000.caffemodel")
+prototxt_abs_path = os.path.abspath(__file__ + "/../../models/deploy.prototxt.txt")
 
 # load our serialized model from disk
 print("[INFO] Loading model...")
-net = cv2.dnn.readNetFromCaffe(prototextPath, caffeModel)
+net = cv2.dnn.readNetFromCaffe(prototxt_abs_path, caffemodel_abs_path)
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] Starting video stream...")

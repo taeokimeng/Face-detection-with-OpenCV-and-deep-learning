@@ -2,22 +2,25 @@
 import numpy as np
 import argparse
 import cv2
-
+import os
 
 
 # define argument parsers
+# Path should be absolute path
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required=True, help="Input image path")
 ap.add_argument("-c", "--confidence", type=float, default=0.5, help="Minimum probability to filter weak detections")
 args = vars(ap.parse_args())
 
 # define prototext and caffemodel paths
-caffeModel = "/home/tokim/code/Face-detection-with-OpenCV-and-deep-learning/models/res10_300x300_ssd_iter_140000.caffemodel"
-prototextPath = "/home/tokim/code/Face-detection-with-OpenCV-and-deep-learning/models/deploy.prototxt.txt"
+# caffeModel = "/home/tokim/code/Face-detection-with-OpenCV-and-deep-learning/models/res10_300x300_ssd_iter_140000.caffemodel"
+# prototextPath = "/home/tokim/code/Face-detection-with-OpenCV-and-deep-learning/models/deploy.prototxt.txt"
+caffemodel_abs_path = os.path.abspath(__file__ + "/../../models/res10_300x300_ssd_iter_140000.caffemodel")
+prototxt_abs_path = os.path.abspath(__file__ + "/../../models/deploy.prototxt.txt")
 
 # load our serialized model from disk
 print("[INFO] Loading model...")
-net = cv2.dnn.readNetFromCaffe(prototextPath, caffeModel)
+net = cv2.dnn.readNetFromCaffe(prototxt_abs_path, caffemodel_abs_path)
 
 
 # load the input image and construct an input blob for the image
