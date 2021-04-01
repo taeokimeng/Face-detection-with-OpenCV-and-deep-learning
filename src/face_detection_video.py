@@ -13,7 +13,7 @@ caffeModel = "../models/res10_300x300_ssd_iter_140000.caffemodel"
 prototextPath = "../models/deploy.prototxt.txt"
 
 # load our serialized model from disk
-print("[INFO] Loading model...................")
+print("[INFO] Loading model...")
 net = cv2.dnn.readNetFromCaffe(prototextPath, caffeModel)
 
 # initialize the video stream and allow the camera sensor to warm up
