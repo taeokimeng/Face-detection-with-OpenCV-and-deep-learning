@@ -8,14 +8,15 @@ import cv2
 # define argument parsers
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required=True, help="Input image path")
+ap.add_argument("-c", "--confidence", type=float, default=0.5, help="Minimum probability to filter weak detections")
 args = vars(ap.parse_args())
 
 # define prototext and caffemodel paths
-caffeModel = "../models/res10_300x300_ssd_iter_140000.caffemodel"
-prototextPath = "../models/deploy.prototxt.txt"
+caffeModel = "/home/tokim/code/Face-detection-with-OpenCV-and-deep-learning/models/res10_300x300_ssd_iter_140000.caffemodel"
+prototextPath = "/home/tokim/code/Face-detection-with-OpenCV-and-deep-learning/models/deploy.prototxt.txt"
 
 # load our serialized model from disk
-print("Loading model...................")
+print("[INFO] Loading model...")
 net = cv2.dnn.readNetFromCaffe(prototextPath, caffeModel)
 
 
@@ -39,8 +40,8 @@ for i in range(0, detections.shape[2]):
     confidence = detections[0, 0, i, 2]
 
     # filter detections by confidence greater than the minimum confidence
-    print(confidence)
-    if confidence > 0.5:
+    # print(confidence)
+    if confidence > args["confidence"]:
         # compute the (x, y)-coordinates of the bounding box for the object (multiplication)
         box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
         (startX, startY, endX, endY) = box.astype("int")
@@ -53,6 +54,9 @@ for i in range(0, detections.shape[2]):
         cv2.putText(image, text, (startX, y),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
 
+print("[INFO] Detection completed")
+# resize the image
+# image = cv2.resize(image, (1200, 900))
 # show the output image
 cv2.imshow("Output", image)
 cv2.waitKey(0)
