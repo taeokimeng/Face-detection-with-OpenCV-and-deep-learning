@@ -1,1 +1,1 @@
-# Face-detection-with-OpenCV-and-deep-learning
+# Face Detection with OpenCV and Deep Learning
